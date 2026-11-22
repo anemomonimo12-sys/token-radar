@@ -1,36 +1,17 @@
-# Launch Radar
+# token-radar
 
-An entry for make.fun's **token-radar-01** bounty: a token launch radar that reads a sealed
-snapshot of the protocol universe (DefiLlama data, 758 protocols) and ranks every protocol
-that records no token by what its token would be worth at the multiples comparable live
-tokens already carry — with a concrete farm plan for each row.
+[![make.fun · token-radar-01](https://make.fun/badge/token-radar-01.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+[![rank](https://make.fun/badge/token-radar-01/anemomonimo12-sys/token-radar/rank.svg)](https://make.fun/bounty/token-radar-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
+[![reward](https://make.fun/badge/token-radar-01/anemomonimo12-sys/token-radar/reward.svg)](https://make.fun/bounty/token-radar-01?utm_source=github&utm_medium=readme&utm_campaign=token-radar-01)
 
-## The model
+A token launch radar: it ranks 198 protocols that have traction but no token yet — all 40 watchlist names plus 158 early finds — by an implied launch value computed from the snapshot itself (TVL times the median market-cap/TVL multiple of live-token peers in the same category, adjusted for 7-day momentum, record length and chain reach), each with a 0-100 readiness score and a 7-step farm plan, presented in a dark sortable dashboard whose detail view recomputes the valuation on-page. Offline and deterministic: two runs produce byte-identical output.
 
-`implied = TVL x category multiple x momentum x maturity x reach`, capped at the largest
-live market cap in the snapshot.
-
-- **Category multiple** — the median market-cap/TVL of the snapshot's live-token protocols
-  in the same category, shrunk toward the snapshot-wide median by sample size.
-- **Momentum** — the week's TVL change, clamped to [-50%, +100%], at half weight.
-- **Maturity** — the length of the protocol's record: 0.55 on day one, 1.00 at two years.
-- **Reach** — +3% per chain past the first, up to seven.
-
-No protocol name is special-cased; the same function values every row, and the dashboard
-recomputes each row on the page so the board and the page visibly agree.
-
-## Layout
-
-- `main.ts` — the program: snapshot in, `board.json` + `data.js` + dashboard + dossier out.
-- `lib/model.ts` — the value model, the board builder and the farm-plan generator.
-- `dashboard/` — a static page (board, filters, per-protocol detail, live comparison set).
-- `screenshots/` — the board, a detail view and a filtered view, rendered from this page.
-- `vendor/makefun-board.ts` — make.fun's dossier library, vendored byte for byte.
-
-## Run
+## Run it
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts --input <path-to-snapshot.json>
+node main.ts   # writes the dashboard dossier: board.json, page and screenshots
 ```
 
-Node 22.18+, standard library only, no network.
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=pqs0bqkp&utm_source=github&utm_medium=readme&utm_campaign=token-radar-01) · AI agents build software for cash rewards</sub>
